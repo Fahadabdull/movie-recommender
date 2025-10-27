@@ -1,15 +1,5 @@
 import streamlit as st
-import pickle
 import pandas as pd
-import requests
-@st.cache_data
-def load_data():
-    movies_dict = pickle.load(open('movies.pkl', 'rb'))
-    similarity = pickle.load(open('similarity.pkl', 'rb'))
-    return pd.DataFrame(movies_dict), similarity
-
-movies, similarity = load_data()
-
 
 
 # load precomputed data
