@@ -13,10 +13,22 @@ movies, similarity = load_data()
 
 
 # load precomputed data
-movies_dict = pickle.load(open('movies.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+import pickle
+import requests
+from io import BytesIO
 
-movies = pd.DataFrame(movies_dict)
+@st.cache_resource
+def load_data():
+    # Replace with your actual file IDs
+    movies_url = "https://drive.google.com/file/d/1n8SYQQEYy79lhc6z8CzPnTr8oqK0xBVT/"
+    similarity_url = "https://drive.google.com/file/d/1vh-gEkPtw6RUSjzQaJ25UXTQvObSUuiX/"
+
+    movies_response = requests.get(movies_url)
+    similarity_response = requests.get(similarity_url)
+
+    movies = pickle.load(BytesIO(movies_response.content))
+    similarity = pickle.load(BytesIO(similarity_response.content))
+    return movies, similarity
 
 st.set_page_config(page_title="🎬 Movie Recommender", layout="centered")
 
